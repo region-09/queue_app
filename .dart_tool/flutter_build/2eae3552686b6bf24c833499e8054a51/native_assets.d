@@ -1,1 +1,0 @@
- /home/marlis/Desktop/queue_app/.dart_tool/flutter_build/2eae3552686b6bf24c833499e8054a51/native_assets.yaml: 

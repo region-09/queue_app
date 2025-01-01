@@ -19,7 +19,7 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /home/marli
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.13.1] /home/marlis/.gradle/caches/transforms-3/889ae3adf7a24645889ee22f4dad2cac/transformed/core-1.13.1/AndroidManifest.xml:28:18-86
 	android:label
-		ADDED from /home/marlis/Desktop/queue_app/android/app/src/main/AndroidManifest.xml:4:9-34
+		ADDED from /home/marlis/Desktop/queue_app/android/app/src/main/AndroidManifest.xml:4:9-40
 	android:icon
 		ADDED from /home/marlis/Desktop/queue_app/android/app/src/main/AndroidManifest.xml:6:9-43
 	android:name

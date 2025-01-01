@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:queue_app/models/model.dart';
 import 'package:queue_app/provider/provider.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 class MainContent extends StatefulWidget {
   final List<Queue> cooking;
@@ -69,7 +70,7 @@ class _MainContentState extends State<MainContent> {
                     child: Row(
                       children: [
                         Text(
-                          '${widget.cooking[index].time}мин',
+                          getTimeDifference(widget.cooking[index].time),
                           style: const TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.w500,
@@ -130,7 +131,7 @@ class _MainContentState extends State<MainContent> {
                         child: Row(
                           children: [
                             Text(
-                              '${widget.done[index].time}мин',
+                              getTimeDifference(widget.done[index].time),
                               style: const TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.w500,
@@ -167,4 +168,16 @@ class _MainContentState extends State<MainContent> {
       ),
     );
   }
+}
+
+String getTimeDifference(String timeFromBackend) {
+  DateFormat format = DateFormat("dd.MM.yyyy HH:mm");
+  DateTime timeFromBackendDate = format.parse(timeFromBackend);
+
+  DateTime currentTime = DateTime.now();
+  Duration difference = currentTime.difference(timeFromBackendDate);
+
+  int minutesDifference = difference.inMinutes;
+
+  return '$minutesDifferenceмин';
 }

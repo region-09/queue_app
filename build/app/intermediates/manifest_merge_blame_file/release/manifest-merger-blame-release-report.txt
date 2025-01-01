@@ -51,8 +51,8 @@
 36        android:extractNativeLibs="true"
 37        android:icon="@mipmap/ic_launcher"
 37-->/home/marlis/Desktop/queue_app/android/app/src/main/AndroidManifest.xml:6:9-43
-38        android:label="queue_app" >
-38-->/home/marlis/Desktop/queue_app/android/app/src/main/AndroidManifest.xml:4:9-34
+38        android:label="CTmax queue_app" >
+38-->/home/marlis/Desktop/queue_app/android/app/src/main/AndroidManifest.xml:4:9-40
 39        <activity
 39-->/home/marlis/Desktop/queue_app/android/app/src/main/AndroidManifest.xml:7:9-28:20
 40            android:name="com.example.queue_app.MainActivity"

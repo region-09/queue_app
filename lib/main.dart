@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:queue_app/home_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:queue_app/provider/provider.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   runApp(
     ChangeNotifierProvider(
       create: (_) => GlobalProvider(),

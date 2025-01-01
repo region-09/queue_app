@@ -11,12 +11,8 @@ class GlobalProvider with ChangeNotifier {
   Queues? queues;
   String? errorMessage;
   String? errorMessage2;
-  Color _backgroundColor = Colors.white;
-  Color _primaryColor = Colors.black;
 
   double get fontSize => _fontSize;
-  Color get backgroundColor => _backgroundColor;
-  Color get primaryColor => _primaryColor;
 
   GlobalProvider() {
     _loadFontSize();
@@ -26,90 +22,86 @@ class GlobalProvider with ChangeNotifier {
   void startWebSocketServer() async {
     try {
       _server = await HttpServer.bind(InternetAddress.anyIPv4, 8081);
-      debugPrint("WebSocket сервер запущен на порту 8081");
+      debugPrint("Сервер запущен на порту 8081");
 
       await for (HttpRequest request in _server!) {
         try {
-          if (WebSocketTransformer.isUpgradeRequest(request)) {
-            WebSocket socket = await WebSocketTransformer.upgrade(request);
-            debugPrint("Клиент подключился!");
-
-            socket.listen((data) {
-              try {
-                // debugPrint("Получены данные: $data");
-                final Map<String, dynamic> decodedData = jsonDecode(data);
-                final Queues queuesData =
-                    Queues.fromJson(decodedData["queues"]);
-
-                queues = queuesData;
-                errorMessage2 = null;
-                errorMessage = null;
-                notifyListeners();
-
-                socket.add("Сообщение принято: $data");
-              } catch (e, stackTrace) {
-                debugPrint("Ошибка при обработке данных WebSocket: $e");
-                // debugPrint("$stackTrace");
-                socket.add("Ошибка обработки данных: $e");
-                errorMessage2 = "Ошибка обработки данных: $e";
-                notifyListeners();
-              }
-            }, onError: (error) {
-              debugPrint("Ошибка WebSocket: $error");
-              errorMessage = "Ошибка сервера: $error";
-            }, onDone: () {
-              debugPrint("Клиент отключился");
-              errorMessage = "Клиент отключился";
-            });
-          } else {
-            request.response
-              ..statusCode = HttpStatus.forbidden
-              ..close();
-          }
-        } catch (e, stackTrace) {
-          debugPrint("Ошибка при обработке HTTP-запроса: $e");
-          // debugPrint("$stackTrace");
-
-          errorMessage = "Ошибка сервера: $e";
-          notifyListeners();
-
+          handleHttpRequest(request);
+        } catch (e) {
+          debugPrint("Ошибка обработки запроса: $e");
           request.response
             ..statusCode = HttpStatus.internalServerError
-            ..write("Ошибка сервера: $e")
+            ..write('500 - Ошибка обработки запроса')
             ..close();
         }
       }
-    } catch (e, stackTrace) {
+    } catch (e) {
+      errorMessage = "Ошибка при запуске WebSocket-сервера: $e";
       debugPrint("Ошибка при запуске WebSocket-сервера: $e");
-      // debugPrint("$stackTrace");
-
-      errorMessage = "Не удалось запустить сервер: $e";
-      notifyListeners();
+      startWebSocketServer();
     }
   }
 
-  ///
-  ///
-  ///
-  ///
-  ///
-  ///
-  ///
-  ///
-  ///
-  ///
-  ///
-  ///
-  ///
-  ///
-  ///
-  ///
-  ///
-  ///
-  ///
-  ///
-  ///
-  ///
+  void handleHttpRequest(HttpRequest request) {
+    final method = request.method;
+    final path = request.uri.path;
+
+    if (method == 'GET' && path == '/') {
+      _handleGetRequest(request);
+    } else if (method == 'POST' && path == '/') {
+      _handlePostRequest(request);
+    } else {
+      _handleNotFound(request);
+    }
+  }
+
+  void _handleGetRequest(HttpRequest request) {
+    request.response
+      ..statusCode = HttpStatus.ok
+      ..headers.contentType = ContentType.html
+      ..write('<h1 >Добро пожаловать на мой сервер!  ⭐⭐⭐</h1>')
+      ..close();
+  }
+
+  void _handlePostRequest(HttpRequest request) {
+    request.listen((data) {
+      try {
+        final body = String.fromCharCodes(data);
+        debugPrint('Получен запрос: $body');
+
+        final decodedData = utf8.decode(const Latin1Codec().encode(body));
+        final Map<String, dynamic> fromJson = jsonDecode(decodedData);
+        final Queues queuesData = Queues.fromJson(fromJson["queues"]);
+
+        queues = queuesData;
+        errorMessage2 = null;
+        errorMessage = null;
+        notifyListeners();
+
+        request.response
+          ..statusCode = HttpStatus.ok
+          ..write('Success')
+          ..close();
+      } catch (e) {
+        debugPrint("Ошибка при обработке POST-запроса: $e");
+        errorMessage = "Ошибка при обработке POST-запроса: $e";
+        notifyListeners();
+        request.response
+          ..statusCode = HttpStatus.badRequest
+          ..write('400 - Ошибка обработки данных')
+          ..close();
+      }
+    });
+  }
+
+  void _handleNotFound(HttpRequest request) {
+    request.response
+      ..statusCode = HttpStatus.notFound
+      ..write('404 - Не найдено')
+      ..close();
+  }
+
+  //=========================================================================
 
   void setFontSize(double newSize) async {
     _fontSize = newSize;

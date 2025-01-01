@@ -1,15 +1,9 @@
-import 'dart:async';
-import 'dart:convert';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:queue_app/components/current_time.dart';
 import 'package:queue_app/components/loading.dart';
 import 'package:queue_app/components/main_content.dart';
 import 'package:queue_app/components/main_logo.dart';
-import 'package:dio/dio.dart';
 import 'package:queue_app/components/modals/settings_modal.dart';
-import 'package:queue_app/main.dart';
-import 'package:queue_app/models/model.dart';
 import 'package:queue_app/provider/provider.dart';
 import 'package:provider/provider.dart';
 

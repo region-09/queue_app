@@ -1,5 +1,5 @@
 name: queue_app
-description: 'Queues app'
+description: 'CTmax Queues app'
 publish_to: 'none'
 
 version: 1.0.0+1
@@ -11,6 +11,7 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.8
   flutter_launcher_icons: ^0.14.2
+  intl: ^0.20.1
 
 dev_dependencies:
   flutter_test:
