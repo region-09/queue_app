@@ -1,0 +1,35 @@
+name: queue_app
+description: 'Queues app'
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.5.4
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  flutter_launcher_icons: ^0.14.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  flutter_svg: ^2.0.7
+  shared_preferences: ^2.3.4
+  dio: ^5.7.0
+  web_socket_channel: ^3.0.1
+  provider: ^6.1.2
+flutter:
+  assets:
+    - assets/
+  uses-material-design: true
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: 'assets/applogo.png' # Только для iOS
+  adaptive_icon_background: '#232524' # Укажите цвет фона
+  adaptive_icon_foreground: 'assets/applogo.png' # Передний план
+  remove_alpha_ios: true
