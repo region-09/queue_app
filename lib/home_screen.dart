@@ -30,7 +30,7 @@ class _MyHomePageState extends State<MyHomePage> {
         body: globalProvider.queues == null
             ? Container(
                 alignment: Alignment.center,
-                color: const Color.fromARGB(255, 198, 204, 210),
+                color: Colors.black,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -41,8 +41,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       onPressed: () => settingsInput(context),
                       child: Loading(
-                          size: 60 * globalProvider.fontSize,
-                          color: const Color.fromARGB(255, 0, 0, 0)),
+                        size: 60 * globalProvider.fontSize,
+                        color: Colors.white,
+                      ),
                     )
                   ],
                 ),
@@ -128,7 +129,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       right: 0,
                       child: Container(
                         height: 60 * globalProvider.fontSize,
-                        padding: const EdgeInsets.only(bottom: 10 , left: 15),
+                        padding: const EdgeInsets.only(bottom: 10, left: 15),
                         alignment: Alignment.topLeft,
                         child: const MainLogoButton(),
                       ),
