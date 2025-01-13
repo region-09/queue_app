@@ -5,10 +5,10 @@ class Loading extends StatefulWidget {
   final Color color;
 
   const Loading({
-    Key? key,
+    super.key,
     required this.size,
     required this.color,
-  }) : super(key: key);
+  });
 
   @override
   State<Loading> createState() => _LoadingState();
@@ -117,7 +117,7 @@ class DotContainer extends StatelessWidget {
   final AnimationController controller;
 
   const DotContainer({
-    Key? key,
+    super.key,
     required this.offsetInterval,
     required this.size,
     required this.color,
@@ -126,7 +126,7 @@ class DotContainer extends StatelessWidget {
     required this.reverseHeightInterval,
     required this.maxHeight,
     required this.controller,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

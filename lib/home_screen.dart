@@ -67,10 +67,10 @@ class _MyHomePageState extends State<MyHomePage> {
                         height: 70 * globalProvider.fontSize,
                         decoration: const BoxDecoration(color: Colors.black),
                         padding: const EdgeInsets.symmetric(horizontal: 15),
-                        child: Row(
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Expanded(
+                            Expanded(
                               flex: 1,
                               child: Text(
                                 'Готовятся',
@@ -86,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               flex: 1,
                               child: CurrentTimeWidget(),
                             ),
-                            const Expanded(
+                            Expanded(
                               flex: 1,
                               child: Text(
                                 'Готовы',

@@ -27,11 +27,11 @@ class _MainContentState extends State<MainContent> {
   }
 
   void _startBlinking() {
-    Future.delayed(Duration(seconds: 1), () {
+    Future.delayed(const Duration(seconds: 1), () {
       setState(() {
-        _currentColor = _currentColor == Color.fromARGB(255, 255, 241, 241)
+        _currentColor = _currentColor == const Color.fromARGB(255, 255, 241, 241)
             ? const Color.fromARGB(255, 92, 215, 115)
-            : Color.fromARGB(255, 255, 241, 241);
+            : const Color.fromARGB(255, 255, 241, 241);
       });
       _startBlinking();
     });

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 class CurrentTimeWidget extends StatefulWidget {
+  const CurrentTimeWidget({super.key});
+
   @override
   _CurrentTimeWidgetState createState() => _CurrentTimeWidgetState();
 }
@@ -29,7 +31,7 @@ class _CurrentTimeWidgetState extends State<CurrentTimeWidget> {
   }
 
   void _startTimer() {
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
         _currentTime = _formatTime(DateTime.now());
       });

@@ -18,7 +18,7 @@ void settingsInput(BuildContext context) async {
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
+            const Text(
               'Размер текста',
               style: TextStyle(fontSize: 16), // Текст с масштабированием
             ),
