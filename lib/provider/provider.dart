@@ -11,6 +11,7 @@ class GlobalProvider with ChangeNotifier {
   Queues? queues;
   String? errorMessage;
   String? errorMessage2;
+  bool isReverse = false;
 
   double get fontSize => _fontSize;
 
@@ -21,7 +22,7 @@ class GlobalProvider with ChangeNotifier {
 
   void startWebSocketServer() async {
     try {
-      _server = await HttpServer.bind(InternetAddress.anyIPv4, 8081);
+      _server = await HttpServer.bind(InternetAddress.anyIPv4, 8088);
       debugPrint("Сервер запущен на порту 8081");
 
       await for (HttpRequest request in _server!) {
@@ -63,35 +64,36 @@ class GlobalProvider with ChangeNotifier {
       ..close();
   }
 
-  void _handlePostRequest(HttpRequest request) {
-    request.listen((data) {
-      try {
-        final body = String.fromCharCodes(data);
-        debugPrint('Получен запрос: $body');
-
-        final decodedData = utf8.decode(const Latin1Codec().encode(body));
-        final Map<String, dynamic> fromJson = jsonDecode(decodedData);
-        final Queues queuesData = Queues.fromJson(fromJson["queues"]);
-
-        queues = queuesData;
-        errorMessage2 = null;
-        errorMessage = null;
-        notifyListeners();
-
-        request.response
-          ..statusCode = HttpStatus.ok
-          ..write('Success')
-          ..close();
-      } catch (e) {
-        debugPrint("Ошибка при обработке POST-запроса: $e");
-        errorMessage = "Ошибка при обработке POST-запроса: $e";
-        notifyListeners();
-        request.response
-          ..statusCode = HttpStatus.badRequest
-          ..write('400 - Ошибка обработки данных')
-          ..close();
+  void _handlePostRequest(HttpRequest request) async {
+    final StringBuffer buffer = StringBuffer();
+    try {
+      await for (final data in request) {
+        buffer.write(String.fromCharCodes(data));
       }
-    });
+      final String body = buffer.toString();
+      debugPrint('Получен запрос: $body');
+      final decodedData = utf8.decode(const Latin1Codec().encode(body));
+      final Map<String, dynamic> fromJson = jsonDecode(decodedData);
+      final Queues queuesData = Queues.fromJson(fromJson["queues"]);
+
+      queues = queuesData;
+      errorMessage2 = null;
+      errorMessage = null;
+      notifyListeners();
+
+      request.response
+        ..statusCode = HttpStatus.ok
+        ..write('Success')
+        ..close();
+    } catch (e) {
+      debugPrint("Ошибка при обработке POST-запроса: $e");
+      errorMessage = "Ошибка при обработке POST-запроса: $e";
+      notifyListeners();
+      request.response
+        ..statusCode = HttpStatus.badRequest
+        ..write('400 - Ошибка обработки данных')
+        ..close();
+    }
   }
 
   void _handleNotFound(HttpRequest request) {
@@ -102,6 +104,10 @@ class GlobalProvider with ChangeNotifier {
   }
 
   //=========================================================================
+  void toggleReverse() {
+    isReverse = !isReverse;
+    notifyListeners();
+  }
 
   void setFontSize(double newSize) async {
     _fontSize = newSize;

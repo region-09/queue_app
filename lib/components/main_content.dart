@@ -56,7 +56,7 @@ class _MainContentState extends State<MainContent> {
         children: [
           Expanded(
             child: SingleChildScrollView(
-              reverse: true,
+              reverse: globalProvider.isReverse,
               child: Column(
                 children: List.generate(
                   widget.cooking.length,
@@ -108,7 +108,7 @@ class _MainContentState extends State<MainContent> {
           ),
           Expanded(
             child: SingleChildScrollView(
-              reverse: true,
+              reverse: globalProvider.isReverse,
               child: Column(
                 children: List.generate(
                   widget.done.length,

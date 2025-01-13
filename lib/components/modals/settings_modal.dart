@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:network_info_plus/network_info_plus.dart';
 import 'package:queue_app/provider/provider.dart';
 import 'package:provider/provider.dart';
 
 void settingsInput(BuildContext context) async {
+  final info = NetworkInfo();
+  final ipAddress = await info.getWifiIP();
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -32,6 +35,39 @@ void settingsInput(BuildContext context) async {
                 globalProvider.setFontSize(newValue);
               },
             ),
+            TextButton(
+              onPressed: () {
+                globalProvider.toggleReverse();
+              },
+              style: TextButton.styleFrom(
+               
+                padding: const EdgeInsets.symmetric(vertical: 12.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                textStyle: const TextStyle(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.bold,
+                ),
+                minimumSize: const Size(100, 50),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Reverse List"),
+                  const SizedBox(width: 10),
+                  Switch(
+                    thumbColor: WidgetStateProperty.all(
+                        globalProvider.isReverse
+                            ? Colors.green
+                            : Colors.white),
+                    value: globalProvider.isReverse,
+                    onChanged: null,
+                  )
+                ],
+              ),
+            ),
+            Text("IP: ${ipAddress ?? ""}"),
             if (globalProvider.errorMessage != null)
               Text(
                 globalProvider.errorMessage ?? '',
