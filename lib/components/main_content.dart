@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:queue_app/models/model.dart';
 import 'package:queue_app/provider/provider.dart';
 import 'package:provider/provider.dart';
@@ -17,6 +18,8 @@ class MainContent extends StatefulWidget {
   _MainContentState createState() => _MainContentState();
 }
 
+final player = AudioPlayer();
+
 class _MainContentState extends State<MainContent> {
   Color _currentColor = Colors.white;
 
@@ -29,9 +32,10 @@ class _MainContentState extends State<MainContent> {
   void _startBlinking() {
     Future.delayed(const Duration(seconds: 1), () {
       setState(() {
-        _currentColor = _currentColor == const Color.fromARGB(255, 255, 241, 241)
-            ? const Color.fromARGB(255, 92, 215, 115)
-            : const Color.fromARGB(255, 255, 241, 241);
+        _currentColor =
+            _currentColor == const Color.fromARGB(255, 255, 241, 241)
+                ? const Color.fromARGB(255, 92, 215, 115)
+                : const Color.fromARGB(255, 255, 241, 241);
       });
       _startBlinking();
     });

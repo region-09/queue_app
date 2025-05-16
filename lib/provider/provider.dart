@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:queue_app/models/model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,6 +13,7 @@ class GlobalProvider with ChangeNotifier {
   String? errorMessage;
   String? errorMessage2;
   bool isReverse = false;
+  final player = AudioPlayer();
 
   double get fontSize => _fontSize;
 
@@ -23,7 +25,7 @@ class GlobalProvider with ChangeNotifier {
   void startWebSocketServer() async {
     try {
       _server = await HttpServer.bind(InternetAddress.anyIPv4, 8088);
-      debugPrint("Сервер запущен на порту 8081");
+      debugPrint("Сервер запущен на порту 8081 ${_server?.address}");
 
       await for (HttpRequest request in _server!) {
         try {
@@ -56,6 +58,15 @@ class GlobalProvider with ChangeNotifier {
     }
   }
 
+  void _speak(String number) async {
+    try {
+      await player.setAsset('assets/audio/$number.mp3');
+      player.play();
+    } catch (e) {
+      print("Error playing audio: $e");
+    }
+  }
+
   void _handleGetRequest(HttpRequest request) {
     request.response
       ..statusCode = HttpStatus.ok
@@ -85,6 +96,13 @@ class GlobalProvider with ChangeNotifier {
         ..statusCode = HttpStatus.ok
         ..write('Success')
         ..close();
+      for (var i = 0; i < queuesData.done!.length; i++) {
+        if (int.parse(queuesData.done![i].counter) <= 9) {
+          _speak("0${queuesData.done![i].counter}");
+        }else {
+          _speak(queuesData.done![i].counter);
+        }
+      }
     } catch (e) {
       debugPrint("Ошибка при обработке POST-запроса: $e");
       errorMessage = "Ошибка при обработке POST-запроса: $e";
